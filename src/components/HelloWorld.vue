@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ClickCounter from './ClickCounter.vue'
+import ItemList from './ItemList.vue'
 
 defineProps<{
   msg: string
@@ -10,6 +11,7 @@ defineProps<{
   <div>
     <h1>{{ msg }}</h1>
     <ClickCounter />
+    <ItemList />
   </div>
 </template>
 
@@ -24,15 +26,4 @@ h3 {
   font-size: 1.2rem;
 }
 
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
-}
 </style>
