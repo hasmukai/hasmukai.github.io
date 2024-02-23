@@ -1,0 +1,38 @@
+li:hover {
+    color: rgb(29, 183, 221);
+}
+/*
+コメントだよ
+*/
+
+h1 {
+    margin: 0;
+    padding: 20px 0;
+    color: #eeeeee;
+    font-size: 30px;
+    text-align: center;
+    text-shadow: 3px 3px 1px black;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+html {
+    font-family: "Noto Serif JP", serif;
+    font-size: 10px;
+    font-weight: 400;
+    font-style: normal;
+    color: rgb(227, 224, 235);
+    background-color: #21483f;
+}
+
+body {
+    width: 600px;
+    margin: 0 auto;
+    background-color: #418090;
+    padding: 0 20px 20px 20px;
+    border: 5px solid black;
+}
+  
