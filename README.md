@@ -44,3 +44,6 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
+### LET'S F**KIN' GO!!!
