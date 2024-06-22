@@ -3,24 +3,32 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="counter.js"></script>
     <title>webpractice</title>
 </head>
 <body>
     <header>
         <h1>webpractice</h1>
     </header>
+    <img src="img/myicon.jpg" alt="icon" id="icon">
+
     <nav>
         <ul>
-            <li>Hi there!</li>
+            <li>Hi, there!</li>
             <li>Welcome to my website.</li>
             <li>How are you?</li>
         </ul>
     </nav>
     <section>
-        <h2>Home</h2>
-        <p>Welcome to webpractice!</p>
+        <h2>Counter</h2>
+        <div id="count">回数: </div>
+        <button onclick="countUp()">click here!</button>
+        <h2>Greeting Machine</h2>
+        <input type="text" id="name" placeholder="your name">
+        <button onclick="hello()">hi</button>
+        <div id="greeting"></div>
     </section>
     <footer>
-        <p>&copy; hasmukaiakumsah</p>
+        <p>&copy; hasmukai</p>
     </footer>
 </html>
