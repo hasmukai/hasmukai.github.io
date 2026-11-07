@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getPublishedPosts, formatDate } from '../../lib/posts';
+import { profile } from '../../data/profile';
+
+export async function getStaticPaths() {
+  return (await getPublishedPosts()).map(post => ({ params: { id: post.id }, props: { post } }));
+}
+interface Props { post: CollectionEntry<'blog'>; }
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<SiteLayout title={post.data.title} section="blog" description={post.data.description}>
+  <header class="page-header"><a class="back-link" href="/blog/"><span class="back-arrow"><Icon name="arrow" size={20} /></span>ブログ一覧</a><span class="header-label">THE BLOG</span></header>
+  <article class="article-page">
+    <header class="article-header">
+      <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+      <h1>{post.data.title}</h1><p>{post.data.description}</p>
+      <div class="article-author"><img src={profile.avatar} alt="" width="32" height="32" /><span>{profile.shortName}</span></div>
+      {post.data.tags.length > 0 && <div class="tags">{post.data.tags.map(tag => <span>#{tag}</span>)}</div>}
+    </header>
+    <div class="prose"><Content /></div>
+    <a class="outline-button article-back" href="/blog/">ブログ一覧へ <Icon name="arrow" size={17} /></a>
+  </article>
+</SiteLayout>

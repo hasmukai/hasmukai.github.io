@@ -1,0 +1,22 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import Icon from '../../components/Icon.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPublishedPosts } from '../../lib/posts';
+const posts = await getPublishedPosts();
+---
+
+<SiteLayout title="ブログ" section="blog" description="Hasmukaiのブログ記事一覧。">
+  <header class="page-header"><div><h1 class="header-title">ブログ<span class="blue-period">.</span></h1><p class="header-subtitle">{posts.length} 件の記事</p></div><span class="header-label">THE BLOG</span></header>
+  <div class="blog-intro"><h2>ブログ一覧</h2></div>
+  <div class="list-heading"><span>すべての記事</span><span class="tab-count">{posts.length}</span></div>
+  <section aria-label="ブログ記事一覧">
+    {posts.length > 0 ? posts.map(post => <PostCard post={post} />) : (
+      <div class="empty-state blog-empty">
+        <div class="empty-illustration" aria-hidden="true"><span class="illustration-orbit"></span><span class="illustration-paper"><Icon name="blog" size={33} /></span><span class="illustration-dot"></span></div>
+        <h2>まだ投稿されていません</h2>
+        <a class="outline-button" href="/">プロフィールへ <Icon name="arrow" size={17} /></a>
+      </div>
+    )}
+  </section>
+</SiteLayout>

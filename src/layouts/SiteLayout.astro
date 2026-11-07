@@ -1,0 +1,78 @@
+---
+import Icon from '../components/Icon.astro';
+import { profile, socialLinks } from '../data/profile';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  section?: 'profile' | 'blog';
+  description?: string;
+}
+const { title, section = 'profile', description = `${profile.name}のポートフォリオ。${profile.bio}。` } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/jpeg" href={profile.avatar} />
+    <title>{title} / Hasmukai</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へスキップ</a>
+    <div class="site-shell">
+      <header class="sidebar">
+        <div class="sidebar-inner">
+          <a class="brand" href="/" aria-label="Hasmukai ホーム">
+            <span class="brand-mark">h<span>.</span></span>
+            <span class="brand-caption">PERSONAL<br />PORTFOLIO</span>
+          </a>
+          <nav class="navigation" aria-label="メインナビゲーション">
+            <a href="/" class:list={['nav-item', { active: section === 'profile' }]} aria-label="プロフィール" aria-current={section === 'profile' ? 'page' : undefined}>
+              <Icon name="profile" /><span>プロフィール</span>
+            </a>
+            <button class="nav-item search-button" type="button" aria-label="検索" aria-disabled="true">
+              <Icon name="search" /><span>検索</span>
+            </button>
+            <a href="/blog/" class:list={['nav-item', { active: section === 'blog' }]} aria-label="ブログ" aria-current={section === 'blog' ? 'page' : undefined}>
+              <Icon name="blog" /><span>ブログ</span>
+            </a>
+          </nav>
+          <div class="sidebar-bottom">
+            <a href="/" class="mini-profile" aria-label="Hasmukaiのプロフィール">
+              <img src={profile.avatar} alt="" width="42" height="42" />
+              <span><strong>Hasmukai</strong><span>Personal portfolio</span></span>
+            </a>
+            <p class="sidebar-note">A little corner of the internet.</p>
+          </div>
+        </div>
+      </header>
+      <main id="main" tabindex="-1"><slot /></main>
+      <aside class="right-sidebar" aria-label="関連リンク">
+        <div class="right-inner">
+          <div class="side-heading"><span class="status-dot"></span> MY CORNER OF THE WEB</div>
+          <section class="links-panel">
+            <div class="panel-heading"><h2>リンク</h2><Icon name="link" size={18} /></div>
+            {socialLinks.map(link => (
+              <a class="social-row" href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${link.name} ${link.handle}（新しいタブで開く）`}>
+                <span class:list={['social-logo', link.icon]}><Icon name={link.icon} size={21} /></span>
+                <span class="social-text"><strong>{link.name}</strong><span>{link.handle}</span></span>
+                <Icon name="external" size={17} />
+              </a>
+            ))}
+          </section>
+          <a href="/blog/" class="blog-callout">
+            <span class="callout-top"><Icon name="blog" size={23} /><span>THE BLOG</span></span>
+            <h2>ブログ一覧</h2>
+            <span class="callout-link">ブログを読む <Icon name="arrow" size={18} /></span>
+            <span class="callout-decoration" aria-hidden="true"></span>
+          </a>
+          <footer class="site-footer"><span>© {new Date().getFullYear()} Hasmukai</span><span>Made with curiosity.</span></footer>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>

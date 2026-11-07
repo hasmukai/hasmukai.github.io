@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import { profile } from '../data/profile';
+import { formatDate, postUrl } from '../lib/posts';
+
+interface Props { post: CollectionEntry<'blog'>; timeline?: boolean; }
+const { post, timeline = false } = Astro.props;
+---
+
+<article class:list={['post', { 'timeline-post': timeline }]}>
+  {timeline && <img class="post-avatar" src={profile.avatar} alt="" width="40" height="40" loading="lazy" />}
+  <div class="post-content">
+    <div class="post-meta">{timeline && <strong>{profile.shortName}</strong>}<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time></div>
+    {timeline && <p class="announcement">新しい記事を公開しました。</p>}
+    <a class:list={['article-link', { 'article-preview': timeline }]} href={postUrl(post.id)}>
+      <span class="article-kicker"><Icon name="blog" size={15} /> BLOG</span>
+      <h2>{post.data.title}</h2><p>{post.data.description}</p>
+      <span class="read-link">記事を読む <Icon name="arrow" size={17} /></span>
+    </a>
+    {post.data.tags.length > 0 && <div class="tags">{post.data.tags.map(tag => <span>#{tag}</span>)}</div>}
+  </div>
+</article>

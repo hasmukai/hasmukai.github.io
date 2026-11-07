@@ -1,0 +1,21 @@
+---
+interface Props {
+  name: 'profile' | 'search' | 'blog' | 'arrow' | 'external' | 'link' | 'x' | 'github' | 'kaggle' | 'feather';
+  size?: number;
+  class?: string;
+}
+const { name, size = 24, class: className } = Astro.props;
+---
+
+<svg class={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  {name === 'profile' && <><circle cx="12" cy="7.5" r="4" /><path d="M4.5 21v-2.5a7.5 7.5 0 0 1 15 0V21" /></>}
+  {name === 'search' && <><circle cx="10.7" cy="10.7" r="7.2" /><path d="m16 16 4.5 4.5" /></>}
+  {name === 'blog' && <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 7h8M8 11h8M8 15h5" /></>}
+  {name === 'arrow' && <path d="M5 12h14m-5-5 5 5-5 5" />}
+  {name === 'external' && <path d="M7 17 17 7M7 7h10v10" />}
+  {name === 'link' && <path d="m10 13 4-4m-6 6-1.5 1.5a3.5 3.5 0 0 1-5-5L6 7a3.5 3.5 0 0 1 5 0m2 10a3.5 3.5 0 0 0 5 0l4.5-4.5a3.5 3.5 0 0 0-5-5L16 9" transform="translate(0 -1) scale(.95)" />}
+  {name === 'x' && <><path d="M4 3h4.5L20 21h-4.5L4 3Z" stroke-width="1.5" /><path d="M20 3 4 21" stroke-width="1.5" /></>}
+  {name === 'kaggle' && <path d="M6 2v20M18 7l-9 7 9 8" stroke-width="2.2" />}
+  {name === 'github' && <path fill="currentColor" stroke="none" d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.07c-3.09.67-3.74-1.31-3.74-1.31-.5-1.29-1.24-1.63-1.24-1.63-1.01-.69.08-.68.08-.68 1.11.08 1.7 1.14 1.7 1.14.99 1.69 2.59 1.2 3.22.92.1-.72.39-1.2.7-1.48-2.47-.28-5.06-1.24-5.06-5.49 0-1.21.43-2.2 1.14-2.98-.11-.28-.49-1.41.11-2.94 0 0 .93-.3 3.05 1.14a10.6 10.6 0 0 1 5.56 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.66.11 2.94.71.78 1.14 1.77 1.14 2.98 0 4.27-2.59 5.2-5.07 5.48.4.35.75 1.02.75 2.06V22c0 .3.2.64.76.53A11.1 11.1 0 0 0 12 .9Z" />}
+  {name === 'feather' && <path d="m4 21 8-8M7 18l-1-6L15 3a4.2 4.2 0 0 1 6 6l-9 9H7Zm3-10 6 6m-4-8 6 6" />}
+</svg>

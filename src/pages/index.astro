@@ -1,17 +1,50 @@
 ---
-
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Icon from '../components/Icon.astro';
+import PostCard from '../components/PostCard.astro';
+import { profile, socialLinks } from '../data/profile';
+import { getPublishedPosts } from '../lib/posts';
+const posts = await getPublishedPosts();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<SiteLayout title="プロフィール">
+  <header class="page-header">
+    <div><p class="header-title">Hasmukai<span class="blue-period">.</span></p><p class="header-subtitle">プロフィール</p></div>
+    <span class="header-label">PORTFOLIO</span>
+  </header>
+  <section aria-label="プロフィール">
+    <div class="cover" aria-hidden="true">
+      <div class="cover-grid"></div>
+      <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+      <div class="cover-sphere"></div>
+      <span class="cover-spark spark-one">✦</span><span class="cover-spark spark-two">✦</span>
+      <span class="cover-caption">A SPACE FOR MY THOUGHTS</span><span class="cover-corner">01 / ∞</span>
+    </div>
+    <div class="profile-details">
+      <div class="profile-topline">
+        <img class="profile-avatar" src={profile.avatar} alt="Hasmukaiのアイコン" width="132" height="132" fetchpriority="high" />
+        <a class="outline-button" href="https://x.com/suraimusan2" target="_blank" rel="noopener noreferrer" aria-label="Xで見る（新しいタブで開く）"><Icon name="x" size={15} /> Xで見る <Icon name="external" size={16} /></a>
+      </div>
+      <h1>{profile.name}</h1><p class="profile-bio">{profile.bio}</p>
+      <div class="profile-links" aria-label="外部プロフィール">
+        <Icon name="link" size={17} />
+        {socialLinks.map(link => <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${link.name}（新しいタブで開く）`}>{link.name}<Icon name="external" size={13} /></a>)}
+      </div>
+    </div>
+  </section>
+  <nav class="feed-tabs" aria-label="コンテンツ">
+    <a href="/" class="selected" aria-current="page"><span>タイムライン</span></a>
+    <a href="/blog/"><span>ブログ <span class="tab-count">{posts.length}</span></span></a>
+  </nav>
+  <section class="timeline" aria-label="記事のお知らせ">
+    <div class="section-caption"><span>最新のお知らせ</span><span class="small-dot"></span></div>
+    {posts.length > 0 ? posts.map(post => <PostCard post={post} timeline />) : (
+      <div class="empty-state">
+        <div class="empty-illustration" aria-hidden="true"><span class="illustration-orbit"></span><span class="illustration-paper"><Icon name="feather" size={32} /></span><span class="illustration-dot"></span><span class="illustration-spark">✧</span></div>
+        <h2>まだ投稿されていません</h2>
+        <a class="primary-button" href="/blog/">ブログを見る <Icon name="arrow" size={17} /></a>
+      </div>
+    )}
+    <div class="feed-end"><span></span><span>You're all caught up.</span><span></span></div>
+  </section>
+</SiteLayout>
