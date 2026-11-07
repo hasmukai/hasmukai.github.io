@@ -16,6 +16,17 @@ npm run astro -- dev stop
 
 `npm run build` で静的サイトを `dist/` に出力します。
 
+## 公開
+
+GitHub の **Settings → Pages → Build and deployment → Source** を
+**GitHub Actions** に設定します。ブランチからの公開では、Astroのソースが
+Jekyllで処理されるためビルドに失敗します。
+
+`main` へのpushで `.github/workflows/deploy.yml` がNode.js 24上で
+`npm ci` と `npm run build` を実行し、生成された `dist/` だけを公開します。
+Actions の **Deploy to GitHub Pages → Run workflow** から手動実行もできます。
+公開先は https://hasmukai.github.io/ です。
+
 ## ページ
 
 - `/`：プロフィールと記事公開のお知らせ
