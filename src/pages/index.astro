@@ -2,6 +2,7 @@
 import SiteLayout from '../layouts/SiteLayout.astro';
 import Icon from '../components/Icon.astro';
 import PostCard from '../components/PostCard.astro';
+import PostActions from '../components/PostActions.astro';
 import { profile, socialLinks } from '../data/profile';
 import { getPublishedPosts } from '../lib/posts';
 const posts = await getPublishedPosts();
@@ -33,18 +34,60 @@ const posts = await getPublishedPosts();
     </div>
   </section>
   <nav class="feed-tabs" aria-label="コンテンツ">
-    <a href="/" class="selected" aria-current="page"><span>タイムライン</span></a>
-    <a href="/blog/"><span>ブログ <span class="tab-count">{posts.length}</span></span></a>
+    <button type="button" class="selected" data-feed="timeline" aria-pressed="true"><span>タイムライン</span></button>
+    <button type="button" data-feed="likes" aria-pressed="false"><span>いいね</span></button>
   </nav>
-  <section class="timeline" aria-label="記事のお知らせ">
-    <div class="section-caption"><span>最新のお知らせ</span><span class="small-dot"></span></div>
-    {posts.length > 0 ? posts.map(post => <PostCard post={post} timeline />) : (
-      <div class="empty-state">
-        <div class="empty-illustration" aria-hidden="true"><span class="illustration-orbit"></span><span class="illustration-paper"><Icon name="feather" size={32} /></span><span class="illustration-dot"></span><span class="illustration-spark">✧</span></div>
-        <h2>まだ投稿されていません</h2>
-        <a class="primary-button" href="/blog/">ブログを見る <Icon name="arrow" size={17} /></a>
-      </div>
-    )}
+  <section class="timeline" aria-label="タイムライン">
+    {[
+      { id: "signate-student-cup-2026", date: "2026-09-16", label: "2026.09.16", text: " で精度賞2位、プレゼン賞1位を取りました！", link: "https://user.competition.signate.jp/ja/competition/detail/?competition=54ee8a27750e4c8cb053d3aec3e2cebf", linkText: "SIGNATE × TECH OCEAN Student Cup 2026" },
+      { id: "toeic-2026-07-02", date: "2026-07-02", label: "2026.07.02", text: "TOEIC L&R Testで825点をとりました！" },
+      { id: "drivers-license-2025-10-15", date: "2025-10-15", label: "2025.10.15", text: "普通自動車運転免許を取得しました！" },
+      { id: "tokyo-tech-2023-04-01", date: "2023-04-01", label: "2023.04.01", text: "東京工業大学情報理工学院に入学しました！" },
+    ].map(item => (
+      <article class="post timeline-post" data-post-id={item.id}>
+        <img class="post-avatar" src={profile.avatar} alt="" width="40" height="40" />
+        <div class="post-content"><div class="post-meta"><strong>{profile.shortName}</strong><time datetime={item.date}>{item.label}</time></div><p>{item.link && <a href={item.link}>{item.linkText}</a>}{item.text}</p><PostActions /></div>
+      </article>
+    ))}
+    {posts.map(post => <PostCard post={post} timeline />)}
+    <p class="likes-empty" hidden>いいねした投稿はまだありません。</p>
     <div class="feed-end"><span></span><span>You're all caught up.</span><span></span></div>
   </section>
+  <script>
+    const key = 'hasmukai-liked-posts';
+    let likes: string[] = [];
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || '[]');
+      if (Array.isArray(saved)) likes = saved.filter((id): id is string => typeof id === 'string');
+    } catch { /* Storage may be unavailable or contain invalid data. */ }
+    let feed = 'timeline';
+    const cards = document.querySelectorAll<HTMLElement>('.timeline-post[data-post-id]');
+    const render = () => {
+      cards.forEach(card => {
+        const liked = likes.includes(card.dataset.postId || '');
+        card.hidden = feed === 'likes' && !liked;
+        card.querySelector('.like-button')?.setAttribute('aria-pressed', String(liked));
+      });
+      const empty = document.querySelector<HTMLElement>('.likes-empty');
+      if (empty) empty.hidden = feed !== 'likes' || Array.from(cards).some(card => !card.hidden);
+      document.querySelectorAll<HTMLButtonElement>('[data-feed]').forEach(tab => {
+        const selected = tab.dataset.feed === feed;
+        tab.classList.toggle('selected', selected);
+        tab.setAttribute('aria-pressed', String(selected));
+      });
+    };
+    cards.forEach(card => card.querySelector('.like-button')?.addEventListener('click', () => {
+      const id = card.dataset.postId!;
+      likes = likes.includes(id) ? likes.filter(item => item !== id) : [...likes, id];
+      try { localStorage.setItem(key, JSON.stringify(likes)); } catch { /* Keep the current session usable. */ }
+      render();
+    }));
+    document.querySelectorAll<HTMLButtonElement>('[data-feed]').forEach(tab => tab.addEventListener('click', () => { feed = tab.dataset.feed || 'timeline'; render(); }));
+    window.addEventListener('storage', event => {
+      if (event.key !== key) return;
+      try { const saved = JSON.parse(event.newValue || '[]'); likes = Array.isArray(saved) ? saved.filter((id): id is string => typeof id === 'string') : []; } catch { likes = []; }
+      render();
+    });
+    render();
+  </script>
 </SiteLayout>

@@ -1,6 +1,6 @@
 ---
 interface Props {
-  name: 'profile' | 'search' | 'blog' | 'arrow' | 'external' | 'link' | 'x' | 'github' | 'kaggle' | 'feather';
+  name: 'profile' | 'search' | 'blog' | 'arrow' | 'external' | 'link' | 'x' | 'github' | 'kaggle' | 'feather' | 'reply' | 'repost' | 'heart' | 'stats';
   size?: number;
   class?: string;
 }
@@ -8,6 +8,10 @@ const { name, size = 24, class: className } = Astro.props;
 ---
 
 <svg class={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  {name === 'reply' && <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.3 0-2.6-.3-3.7-.8L4 21l1.2-4A8.5 8.5 0 1 1 21 11.5Z" />}
+  {name === 'repost' && <path d="m4 8 3-3 3 3M7 5v10a3 3 0 0 0 3 3h2m8-2-3 3-3-3m3 3V9a3 3 0 0 0-3-3h-2" />}
+  {name === 'heart' && <path d="M20.8 4.9a5.5 5.5 0 0 0-7.8 0L12 6l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.3a5.5 5.5 0 0 0 0-7.8Z" />}
+  {name === 'stats' && <path d="M4 20V12m5 8V5m5 15v-9m5 9V3" />}
   {name === 'profile' && <><circle cx="12" cy="7.5" r="4" /><path d="M4.5 21v-2.5a7.5 7.5 0 0 1 15 0V21" /></>}
   {name === 'search' && <><circle cx="10.7" cy="10.7" r="7.2" /><path d="m16 16 4.5 4.5" /></>}
   {name === 'blog' && <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 7h8M8 11h8M8 15h5" /></>}
