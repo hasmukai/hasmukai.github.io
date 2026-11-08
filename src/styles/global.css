@@ -242,3 +242,18 @@ main:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
+
+.feed-tabs > button { border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: #657580; font: inherit; font-size: 12px; cursor: pointer; }
+.feed-tabs > button:hover { background: #f6fafc; }
+.feed-tabs > button > span { height: 100%; display: flex; align-items: center; position: relative; }
+.feed-tabs > button.selected { color: #24333f; font-weight: 700; }
+.feed-tabs > button.selected > span::after { position: absolute; content: ''; bottom: -1px; height: 3px; border-radius: 3px; background: var(--blue); width: 100%; }
+.post[hidden], .likes-empty[hidden] { display: none; }
+.timeline-post { padding-top: 18px; padding-bottom: 14px; }
+.post-actions { display: flex; justify-content: space-between; width: 100%; margin-top: 10px; color: #657580; }
+.post-actions > span, .like-button { display: inline-flex; align-items: center; }
+.like-button { border: 0; padding: 0; background: none; color: inherit; cursor: pointer; }
+.like-button[aria-pressed="true"] { color: #e0245e; }
+.like-button[aria-pressed="true"] svg { fill: currentColor; }
+.likes-empty { padding: 32px 20px; text-align: center; color: #657580; }
+.timeline-post .post-content p a { color: #0066cc; text-decoration: underline; }
