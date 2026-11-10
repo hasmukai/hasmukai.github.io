@@ -1,5 +1,6 @@
 ---
 import Icon from '../components/Icon.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import { profile, socialLinks } from '../data/profile';
 import '../styles/global.css';
 
@@ -18,6 +19,20 @@ const { title, section = 'profile', description = `${profile.name}のポート�
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
+    <script is:inline>
+      (() => {
+        const key = 'hasmukai-theme';
+        let theme = null;
+        try { theme = localStorage.getItem(key); } catch { /* Storage may be unavailable. */ }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f151b' : '#ffffff');
+      })();
+    </script>
     <link rel="icon" type="image/jpeg" href={profile.avatar} />
     <title>{title} / Hasmukai</title>
   </head>
@@ -53,7 +68,7 @@ const { title, section = 'profile', description = `${profile.name}のポート�
       <main id="main" tabindex="-1"><slot /></main>
       <aside class="right-sidebar" aria-label="関連リンク">
         <div class="right-inner">
-          <div class="side-heading"><span class="status-dot"></span> MY CORNER OF THE WEB</div>
+          <div class="side-heading"><span class="status-dot"></span> MY CORNER OF THE WEB<ThemeToggle /></div>
           <section class="links-panel">
             <div class="panel-heading"><h2>リンク</h2><Icon name="link" size={18} /></div>
             {socialLinks.map(link => (
@@ -74,5 +89,62 @@ const { title, section = 'profile', description = `${profile.name}のポート�
         </div>
       </aside>
     </div>
+
+<script>
+  const STORAGE_KEY = 'hasmukai-theme';
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]'));
+
+  type Theme = 'light' | 'dark';
+
+  const readStoredTheme = (): Theme | null => {
+    try {
+      const value = localStorage.getItem(STORAGE_KEY);
+      return value === 'light' || value === 'dark' ? value : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const applyTheme = (theme: Theme, persist: boolean) => {
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme;
+    if (meta) meta.content = theme === 'dark' ? '#0f151b' : '#ffffff';
+    if (persist) {
+      try {
+        localStorage.setItem(STORAGE_KEY, theme);
+      } catch {
+        /* Keep the current session usable when storage is unavailable. */
+      }
+    }
+    const label = theme === 'dark' ? 'ライトモードに切り替える' : 'ダークモードに切り替える';
+    buttons.forEach(button => {
+      button.setAttribute('aria-label', label);
+      button.setAttribute('title', label);
+    });
+  };
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
+    });
+  });
+
+  media.addEventListener('change', event => {
+    if (readStoredTheme()) return;
+    applyTheme(event.matches ? 'dark' : 'light', false);
+  });
+
+  window.addEventListener('storage', event => {
+    if (event.key !== STORAGE_KEY) return;
+    const stored = readStoredTheme();
+    applyTheme(stored ?? (media.matches ? 'dark' : 'light'), false);
+  });
+
+  applyTheme(readStoredTheme() ?? (media.matches ? 'dark' : 'light'), false);
+</script>
   </body>
 </html>
+

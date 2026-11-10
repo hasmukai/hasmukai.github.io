@@ -1,6 +1,6 @@
 ---
 interface Props {
-  name: 'profile' | 'search' | 'blog' | 'arrow' | 'external' | 'link' | 'x' | 'github' | 'kaggle' | 'feather' | 'reply' | 'repost' | 'heart' | 'stats';
+  name: 'profile' | 'search' | 'blog' | 'arrow' | 'external' | 'link' | 'x' | 'github' | 'kaggle' | 'feather' | 'reply' | 'repost' | 'heart' | 'stats' | 'sun' | 'moon';
   size?: number;
   class?: string;
 }
@@ -22,4 +22,6 @@ const { name, size = 24, class: className } = Astro.props;
   {name === 'kaggle' && <path d="M6 2v20M18 7l-9 7 9 8" stroke-width="2.2" />}
   {name === 'github' && <path fill="currentColor" stroke="none" d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.07c-3.09.67-3.74-1.31-3.74-1.31-.5-1.29-1.24-1.63-1.24-1.63-1.01-.69.08-.68.08-.68 1.11.08 1.7 1.14 1.7 1.14.99 1.69 2.59 1.2 3.22.92.1-.72.39-1.2.7-1.48-2.47-.28-5.06-1.24-5.06-5.49 0-1.21.43-2.2 1.14-2.98-.11-.28-.49-1.41.11-2.94 0 0 .93-.3 3.05 1.14a10.6 10.6 0 0 1 5.56 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.66.11 2.94.71.78 1.14 1.77 1.14 2.98 0 4.27-2.59 5.2-5.07 5.48.4.35.75 1.02.75 2.06V22c0 .3.2.64.76.53A11.1 11.1 0 0 0 12 .9Z" />}
   {name === 'feather' && <path d="m4 21 8-8M7 18l-1-6L15 3a4.2 4.2 0 0 1 6 6l-9 9H7Zm3-10 6 6m-4-8 6 6" />}
+  {name === 'sun' && <><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" /></>}
+  {name === 'moon' && <path d="M20.2 14.2A8.2 8.2 0 0 1 9.8 3.8a8.4 8.4 0 1 0 10.4 10.4Z" />}
 </svg>
