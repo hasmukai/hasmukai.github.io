@@ -1,6 +1,7 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import Icon from '../components/Icon.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import PostCard from '../components/PostCard.astro';
 import PostActions from '../components/PostActions.astro';
 import { profile, socialLinks } from '../data/profile';
@@ -11,7 +12,7 @@ const posts = await getPublishedPosts();
 <SiteLayout title="プロフィール">
   <header class="page-header">
     <div><p class="header-title">Hasmukai<span class="blue-period">.</span></p><p class="header-subtitle">プロフィール</p></div>
-    <span class="header-label">PORTFOLIO</span>
+    <div class="header-actions"><span class="header-label">PORTFOLIO</span><ThemeToggle class="theme-toggle--header" /></div>
   </header>
   <section aria-label="プロフィール">
     <div class="cover" aria-hidden="true">

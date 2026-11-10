@@ -1,13 +1,14 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import Icon from '../../components/Icon.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getPublishedPosts } from '../../lib/posts';
 const posts = await getPublishedPosts();
 ---
 
 <SiteLayout title="ブログ" section="blog" description="Hasmukaiのブログ記事一覧。">
-  <header class="page-header"><div><h1 class="header-title">ブログ<span class="blue-period">.</span></h1><p class="header-subtitle">{posts.length} 件の記事</p></div><span class="header-label">THE BLOG</span></header>
+  <header class="page-header"><div><h1 class="header-title">ブログ<span class="blue-period">.</span></h1><p class="header-subtitle">{posts.length} 件の記事</p></div><div class="header-actions"><span class="header-label">THE BLOG</span><ThemeToggle class="theme-toggle--header" /></div></header>
   <div class="blog-intro"><h2>ブログ一覧</h2></div>
   <div class="list-heading"><span>すべての記事</span><span class="tab-count">{posts.length}</span></div>
   <section aria-label="ブログ記事一覧">

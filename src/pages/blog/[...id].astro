@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import Icon from '../../components/Icon.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
 import { getPublishedPosts, formatDate } from '../../lib/posts';
 import { profile } from '../../data/profile';
 
@@ -15,7 +16,7 @@ const { Content } = await render(post);
 ---
 
 <SiteLayout title={post.data.title} section="blog" description={post.data.description}>
-  <header class="page-header"><a class="back-link" href="/blog/"><span class="back-arrow"><Icon name="arrow" size={20} /></span>ブログ一覧</a><span class="header-label">THE BLOG</span></header>
+  <header class="page-header"><a class="back-link" href="/blog/"><span class="back-arrow"><Icon name="arrow" size={20} /></span>ブログ一覧</a><div class="header-actions"><span class="header-label">THE BLOG</span><ThemeToggle class="theme-toggle--header" /></div></header>
   <article class="article-page">
     <header class="article-header">
       <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>

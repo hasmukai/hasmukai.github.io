@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['theme-toggle', className]}
+  data-theme-toggle
+  aria-label="ダークモードに切り替える"
+  title="ダークモードに切り替える"
+>
+  <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true"><Icon name="moon" size={18} /></span>
+  <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true"><Icon name="sun" size={18} /></span>
+</button>
